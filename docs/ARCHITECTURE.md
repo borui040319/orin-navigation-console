@@ -3,7 +3,7 @@
 ## 运行结构
 
 - `client/panel.html`、`panel.js`、`cloud.js`：从现有电脑部署逐字复制的 ATEC 网页。接口、动作白名单和交互流程保持一致。
-- `client/panel.py`：原本机 loopback HTTP 服务；唯一功能性适配为可配置 SSH 别名／本机端口，并使用新电脑 SSH config 中的密钥与主机校验。API 仍转发到原 `navctl.py rpc`。
+- `client/panel.py`：原本机 loopback HTTP 服务；适配可配置 SSH 别名／本机端口，使用新电脑 SSH config 中的密钥与主机校验，显式用 UTF-8 读取中文网页和 SSH 响应以兼容 Windows。API 仍转发到原 `navctl.py rpc`。
 - `scripts/start.py`：只读检查 Orin，启动本机面板与 loopback SSH 正向隧道，等待两页 HTTP 就绪，打开浏览器并监督子进程。失败时退出并清理自己创建的本机子进程。
 - `scripts/doctor.py`：只通过 SSH 调用 ATEC `status` 和 CROSS `status`。不重启服务、不打开传感器、不发送导航目标。
 - `scripts/common.py`：配置验证与 SSH 参数。CROSS 保留 8888 端口以兼容当前服务的 Host 校验。

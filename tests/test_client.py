@@ -48,6 +48,15 @@ class ConfigurationTests(unittest.TestCase):
 
 
 class LifecycleTests(unittest.TestCase):
+    def test_chinese_cli_errors_survive_non_utf8_stream_defaults(self):
+        result = subprocess.run([sys.executable, str(ROOT/'scripts/start.py'),
+                                 '--config', str(ROOT/'does-not-exist.json')],
+                                capture_output=True, encoding='utf-8',
+                                env=dict(os.environ, PYTHONIOENCODING='ascii'))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('配置文件不存在', result.stderr)
+        self.assertNotIn('UnicodeEncodeError', result.stderr)
+
     def test_occupied_port_fails_without_killing_owner(self):
         with socket.socket() as sock:
             sock.bind(('127.0.0.1', 0))
@@ -124,14 +133,17 @@ class PanelTests(unittest.TestCase):
 
     def test_status_uses_original_rpc_and_configuration_alias(self):
         with patch.object(self.panel.subprocess, 'run') as run:
-            run.return_value = subprocess.CompletedProcess([], 0, '{"mode":"standard"}', '')
+            run.return_value = subprocess.CompletedProcess([], 0, '{"mode":"standard","label":"标准版"}', '')
             req = urllib.request.Request(self.url+'/api', data=b'{"action":"status"}',
                 headers={'X-ATEC-Token':self.panel.TOKEN})
             with self.opener.open(req) as response:
-                self.assertEqual(json.load(response)['mode'], 'standard')
+                result = json.load(response)
+                self.assertEqual(result['mode'], 'standard')
+                self.assertEqual(result['label'], '标准版')
             args = run.call_args.args[0]
             self.assertEqual(args[-4:], ['orin-test','python3','/home/hkclr/atec_navigation/control/navctl.py','rpc'])
             self.assertEqual(json.loads(run.call_args.kwargs['input']), {'action':'status'})
+            self.assertEqual(run.call_args.kwargs['encoding'], 'utf-8')
 
 
 if __name__ == '__main__':

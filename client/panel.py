@@ -50,7 +50,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.path not in files:
             return self.send(404, '{}')
         filename, kind = files[self.path]
-        self.send(200, (HERE / filename).read_text().replace('__TOKEN__', TOKEN), kind)
+        self.send(200, (HERE / filename).read_text(encoding='utf-8').replace('__TOKEN__', TOKEN), kind)
 
     def do_POST(self):
         if not self.valid_host() or self.path != '/api' or self.headers.get('X-ATEC-Token') != TOKEN:
@@ -62,7 +62,8 @@ class Handler(BaseHTTPRequestHandler):
             req = json.loads(self.rfile.read(size))
             if req.get('action') not in ACTIONS:
                 raise ValueError('不支持的操作')
-            p = subprocess.run(SSH, input=json.dumps(req), capture_output=True, text=True, timeout=85)
+            p = subprocess.run(SSH, input=json.dumps(req), capture_output=True,
+                               text=True, encoding='utf-8', timeout=85)
             if not p.stdout.strip():
                 raise ValueError(p.stderr.strip() or 'Orin 连接失败')
             result = json.loads(p.stdout)

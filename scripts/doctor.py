@@ -5,7 +5,7 @@ import json
 import shutil
 import subprocess
 import sys
-from common import config, ssh_options
+from common import config, ssh_options, configure_output
 
 REMOTE_PROBE = r'''
 import json, re, subprocess, urllib.request
@@ -46,7 +46,7 @@ def check(cfg):
     if not shutil.which('ssh'):
         raise RuntimeError('找不到 OpenSSH 客户端，请按 docs/NEW_COMPUTER.md 安装')
     proc = subprocess.run(ssh_options() + ['-o', 'ClearAllForwardings=yes', cfg['ssh_host'], 'python3', '-'],
-                          input=REMOTE_PROBE, text=True, capture_output=True, timeout=65)
+                          input=REMOTE_PROBE, text=True, encoding='utf-8', capture_output=True, timeout=65)
     if proc.returncode:
         raise RuntimeError(proc.stderr.strip() or 'SSH 检查失败')
     try:
@@ -60,6 +60,7 @@ def check(cfg):
 
 
 def main():
+    configure_output()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config')
     args = parser.parse_args()

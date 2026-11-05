@@ -1,9 +1,17 @@
 """Portable workstation configuration; no robot-side writes."""
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def configure_output():
+    # Windows redirected streams may otherwise use an ANSI code page.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8', errors='backslashreplace')
 
 
 def config(path=None):

@@ -9,7 +9,7 @@ import sys
 import time
 import urllib.request
 import webbrowser
-from common import ROOT, config, tunnel_command
+from common import ROOT, config, tunnel_command, configure_output
 from doctor import check
 
 
@@ -53,6 +53,7 @@ def wait_ready(children, urls, timeout=20):
 
 
 def main():
+    configure_output()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config')
     parser.add_argument('--no-browser', action='store_true')
