@@ -1,0 +1,5 @@
+{
+  "ssh_host": "orin",
+  "panel_port": 8876,
+  "open_browser": true
+}

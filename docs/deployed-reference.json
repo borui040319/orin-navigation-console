@@ -1,0 +1,275 @@
+{
+  "purpose": "Reference metadata for existing Orin services. Client only; no algorithm deployment.",
+  "console_urls": {
+    "navigation": "http://127.0.0.1:8876/",
+    "cross": "http://127.0.0.1:8888/"
+  },
+  "ssh_host": "orin",
+  "host_key_ed25519_sha256": "sS/ut4NbXwK3ZLhdaPqNuum/xzDDKIcSSGWd5twHGb4",
+  "cross_methods": [
+    {
+      "id": "rgbd_wheel",
+      "name": "RGB-D + IMU · DPVO+IMU · PnP",
+      "sensors": "RGB-D + IMU",
+      "odometry": "DPVO+IMU（DA3 深度先验）",
+      "backend": "XFeat + LightGlue + PnP",
+      "provider": "dpvo_imu",
+      "needs": [
+        "base",
+        "dpvo",
+        "da3",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "rgbd_wheel"
+    },
+    {
+      "id": "rgbd_ff_wheel",
+      "name": "RGB-D + IMU · DPVO+IMU · VGGT",
+      "sensors": "RGB-D + IMU",
+      "odometry": "DPVO+IMU（DA3 深度先验）",
+      "backend": "VGGT-Omega（深度定标）",
+      "provider": "dpvo_imu",
+      "needs": [
+        "base",
+        "dpvo",
+        "vggt",
+        "da3",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "rgbd_ff_wheel"
+    },
+    {
+      "id": "mono_wheel",
+      "name": "RGB + IMU · 外部 DPVO+IMU · VGGT",
+      "sensors": "RGB + IMU",
+      "odometry": "DPVO+IMU（DA3 深度先验）",
+      "backend": "VGGT-Omega（里程计/地图定标）",
+      "provider": "dpvo_imu",
+      "needs": [
+        "base",
+        "dpvo",
+        "vggt",
+        "da3",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "mono_wheel"
+    },
+    {
+      "id": "rgbd_dpvo",
+      "name": "RGB-D · DPVO · PnP",
+      "sensors": "RGB-D",
+      "odometry": "DPVO（实测深度定标）",
+      "backend": "XFeat + LightGlue + PnP",
+      "provider": "builtin",
+      "needs": [
+        "base",
+        "dpvo",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "rgbd_dpvo"
+    },
+    {
+      "id": "mono_dpvo",
+      "name": "RGB · DPVO · DA3",
+      "sensors": "RGB",
+      "odometry": "DPVO（DA3 预测深度定标）",
+      "backend": "DA3 / 两视图匹配",
+      "provider": "builtin",
+      "needs": [
+        "base",
+        "dpvo",
+        "da3",
+        "gtsam",
+        "camera",
+        "common_models",
+        "da3_large"
+      ],
+      "upstream": "mono_dpvo"
+    },
+    {
+      "id": "mono_imu",
+      "name": "RGB + IMU · VGGT+IMU · VGGT",
+      "sensors": "RGB + IMU",
+      "odometry": "VGGT-Omega + IMU",
+      "backend": "VGGT-Omega",
+      "provider": "builtin",
+      "needs": [
+        "base",
+        "vggt",
+        "da3",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "mono_imu"
+    },
+    {
+      "id": "mono_vio",
+      "name": "RGB + IMU · DPVO+IMU · VGGT",
+      "sensors": "RGB + IMU",
+      "odometry": "DPVO + IMU（DA3 深度先验）",
+      "backend": "VGGT-Omega",
+      "provider": "builtin",
+      "needs": [
+        "base",
+        "dpvo",
+        "vggt",
+        "da3",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "mono_vio"
+    },
+    {
+      "id": "rgbd_basalt",
+      "name": "RGB-D + IR双目 + IMU · Basalt · PnP",
+      "sensors": "CROSS: RGB-D；Basalt: IR双目 + IMU",
+      "odometry": "Basalt VIO",
+      "backend": "XFeat + LightGlue + PnP",
+      "provider": "basalt",
+      "needs": [
+        "base",
+        "basalt",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "rgbd_basalt"
+    },
+    {
+      "id": "rgbd_ff_basalt",
+      "name": "RGB-D + IR双目 + IMU · Basalt · VGGT",
+      "sensors": "CROSS: RGB-D；Basalt: IR双目 + IMU",
+      "odometry": "Basalt VIO",
+      "backend": "VGGT-Omega（深度定标）",
+      "provider": "basalt",
+      "needs": [
+        "base",
+        "basalt",
+        "vggt",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "rgbd_ff_basalt"
+    },
+    {
+      "id": "mono_basalt",
+      "name": "RGB + IR双目 + IMU · Basalt · VGGT",
+      "sensors": "CROSS: RGB；Basalt: IR双目 + IMU",
+      "odometry": "Basalt VIO",
+      "backend": "VGGT-Omega（里程计/地图定标）",
+      "provider": "basalt",
+      "needs": [
+        "base",
+        "basalt",
+        "vggt",
+        "gtsam",
+        "camera",
+        "common_models"
+      ],
+      "upstream": "mono_basalt"
+    },
+    {
+      "id": "gps_rgbd_imu_dpvo_pnp",
+      "name": "GPS + RGB-D + IMU · DPVO+IMU · PnP",
+      "sensors": "GPS + RGB-D + IMU",
+      "odometry": "DPVO+IMU（DA3 深度先验）",
+      "backend": "XFeat + LightGlue + PnP",
+      "provider": "dpvo_imu",
+      "needs": [
+        "base",
+        "dpvo",
+        "da3",
+        "gtsam",
+        "camera",
+        "common_models",
+        "gnss"
+      ],
+      "upstream": "rgbd_wheel",
+      "gps": true
+    },
+    {
+      "id": "gps_rgbd_imu_dpvo_vggt",
+      "name": "GPS + RGB-D + IMU · DPVO+IMU · VGGT",
+      "sensors": "GPS + RGB-D + IMU",
+      "odometry": "DPVO+IMU（DA3 深度先验）",
+      "backend": "VGGT-Omega（深度定标）",
+      "provider": "dpvo_imu",
+      "needs": [
+        "base",
+        "dpvo",
+        "vggt",
+        "da3",
+        "gtsam",
+        "camera",
+        "common_models",
+        "gnss"
+      ],
+      "upstream": "rgbd_ff_wheel",
+      "gps": true
+    },
+    {
+      "id": "gps_rgbd_imu_basalt_pnp",
+      "name": "GPS + RGB-D + IR双目 + IMU · Basalt · PnP",
+      "sensors": "GPS + CROSS: RGB-D；Basalt: IR双目 + IMU",
+      "odometry": "Basalt VIO",
+      "backend": "XFeat + LightGlue + PnP",
+      "provider": "basalt",
+      "needs": [
+        "base",
+        "basalt",
+        "gtsam",
+        "camera",
+        "common_models",
+        "gnss"
+      ],
+      "upstream": "rgbd_basalt",
+      "gps": true
+    },
+    {
+      "id": "gps_rgbd_imu_basalt_vggt",
+      "name": "GPS + RGB-D + IR双目 + IMU · Basalt · VGGT",
+      "sensors": "GPS + CROSS: RGB-D；Basalt: IR双目 + IMU",
+      "odometry": "Basalt VIO",
+      "backend": "VGGT-Omega（深度定标）",
+      "provider": "basalt",
+      "needs": [
+        "base",
+        "basalt",
+        "vggt",
+        "gtsam",
+        "camera",
+        "common_models",
+        "gnss"
+      ],
+      "upstream": "rgbd_ff_basalt",
+      "gps": true
+    }
+  ],
+  "original_client_sha256": {
+    "panel.py": "87b99460619d00e9c2adfa4464f53c7fcc6f7cfa6c00cc1b5fab8985805c0891",
+    "panel.html": "027e546a90949e85f69e5fd52c5b86714c00205aa17c9ae2f236c413af2729a4",
+    "panel.js": "e8afdb8495c7a0bec366cf6458a46170d355ebc2e3c46b731fd8792f0e5718e6",
+    "cloud.js": "91bec4cc31fb1ebf6908ae5636cd58b8ff417029b8ffc1bc57c950aa3563d3fd"
+  },
+  "server_control_sha256": {
+    "server.py": "c7ff93f4af6fd067e55055577a654e55d2a639cf2aac7e52d76a9ac82ef92aed",
+    "app.js": "28df82dd7f704c3380ebb13352716b9e11ba029cf6f395894cdff8607d9e7a27",
+    "modes.py": "82db632b5a8a1ca126a750db670a17b6fb84cdd85877961369a190952789cb3c",
+    "navigation_flow.py": "9c233558e0ed9f43fde6a84bc8b8c3cb158ee40a4e2d472508b50b43c84b39c1",
+    "motion_daemon.py": "eec98ddf95c913dda8818daaf72f50e3cb136bd9f69c896e77d0f9c272b6076d",
+    "README_motion.md": "57536821a79cb13bd8fa152a7725fb5258d9f7383f06719f4c4d9cab1fcbce72"
+  },
+  "reference_date": "2026-11-05",
+  "manifest_written_at": "2026-11-05T19:47:37+08:00"
+}

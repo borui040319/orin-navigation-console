@@ -1,0 +1,13 @@
+config.local.json
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+runtime/
+*.log
+*.pem
+*.key
+id_ed25519*
+atec_orin_ed25519*
+known_hosts*
+.DS_Store
